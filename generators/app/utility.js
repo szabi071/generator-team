@@ -234,6 +234,10 @@ function validateApplicationName(input) {
    return validateRequired(input, `You must provide a name for your application`);
 }
 
+function validateProjectName(input) {
+   return validateRequired(input, `You must provide a name for your vsts project`);
+}
+
 function validatePersonalAccessToken(input) {
    return validateRequired(input, `You must provide a Personal Access Token`);
 }
@@ -1233,6 +1237,7 @@ module.exports = {
    validateAzureTenantID: validateAzureTenantID,
    validateDockerRegistry: validateDockerRegistry,
    validateApplicationName: validateApplicationName,
+   validateProjectName: validateProjectName,
    findAzureServiceEndpoint: findAzureServiceEndpoint,
    getDockerRegistryServer: getDockerRegistryServer,
    findDockerServiceEndpoint: findDockerServiceEndpoint,

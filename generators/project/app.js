@@ -22,7 +22,7 @@ function findOrCreateProject(gen, callback) {
 
    var token = util.encodePat(gen.pat);
 
-   util.tryFindProject(gen.tfs, gen.applicationName, token, gen, function (error, obj) {
+   util.tryFindProject(gen.tfs, gen.projectName, token, gen, function (error, obj) {
       if (error) {
          callback(error, null);
       } else {
@@ -33,7 +33,7 @@ function findOrCreateProject(gen, callback) {
             return;
          }
 
-         gen.log(`+ Creating ${gen.applicationName} Team Project`);
+         gen.log(`+ Creating ${gen.projectName} Team Project`);
 
          var teamProject = {};
 
@@ -42,7 +42,7 @@ function findOrCreateProject(gen, callback) {
          // wait for it to be created or fail, and get the final id.
          async.series([
             function (thisSeries) {
-               createProject(gen.tfs, gen.applicationName, token, gen, function (err, project) {
+               createProject(gen.tfs, gen.projectName, token, gen, function (err, project) {
                   teamProject = project;
                   thisSeries(err);
                });
@@ -68,7 +68,7 @@ function findOrCreateProject(gen, callback) {
                var options = util.addUserAgent({
                   method: 'GET',
                   headers: { 'cache-control': 'no-cache', 'authorization': `Basic ${token}` },
-                  url: `${util.getFullURL(gen.tfs)}/_apis/projects/${gen.applicationName}`,
+                  url: `${util.getFullURL(gen.tfs)}/_apis/projects/${gen.projectName}`,
                   qs: { 'api-version': util.PROJECT_API_VERSION }
                });
 

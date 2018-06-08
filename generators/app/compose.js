@@ -46,7 +46,7 @@ function addAzure(obj) {
 
 function addProject(obj) {
    obj.composeWith(`team:project`, {
-      arguments: [obj.applicationName, obj.tfs,
+      arguments: [obj.projectName, obj.tfs,
       obj.pat
       ]
    });

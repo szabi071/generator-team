@@ -44,7 +44,7 @@ describe(`project:index`, function () {
 
       return helpers.run(path.join(__dirname, `../../generators/project`))
          .withPrompts({
-            applicationName: `unitTest`,
+            projectName: `unitTest`,
             tfs: `unitTest`
          })
          .on(`error`, function (error) {

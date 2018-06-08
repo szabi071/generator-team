@@ -19,6 +19,7 @@ module.exports = class extends Generator {
       // These are position based arguments for this generator. If they are not provided
       // via the command line they will be queried during the prompting priority
       argUtils.applicationType(this);
+      argUtils.projectName(this);
       argUtils.applicationName(this);
       argUtils.tfs(this);
       argUtils.azureSub(this);
@@ -61,6 +62,7 @@ module.exports = class extends Generator {
          prompts.pat(this),
          prompts.queue(this),
          prompts.applicationType(this),
+         prompts.projectName(this),
          prompts.applicationName(this),
          prompts.customFolder(this),
          prompts.target(this),
@@ -105,6 +107,7 @@ module.exports = class extends Generator {
          this.installDep = util.reconcileValue(cmdLnInput.options.installDep, answers.installDep);
          this.azureSubId = util.reconcileValue(cmdLnInput.options.azureSubId, answers.azureSubId, ``);
          this.dockerHost = util.reconcileValue(cmdLnInput.options.dockerHost, answers.dockerHost, ``);
+         this.projectName = util.reconcileValue(cmdLnInput.options.projectName, answers.projectName, ``);
          this.dockerPorts = util.reconcileValue(cmdLnInput.options.dockerPorts, answers.dockerPorts, ``);
          this.customFolder = util.reconcileValue(cmdLnInput.options.customFolder, answers.customFolder, ``);
          this.dockerRegistry = util.reconcileValue(cmdLnInput.options.dockerRegistry, answers.dockerRegistry, ``);

@@ -200,6 +200,19 @@ function applicationName(obj) {
    };
 }
 
+function projectName(obj) {
+   return {
+      name: `projectName`,
+      type: `input`,
+      store: true,
+      message: `What is the name of your project?`,
+      validate: util.validateProjectName,
+      when: () => {
+         return obj.options.projectName === undefined;
+      }
+   };
+}
+
 function target(obj) {
    return {
       name: `target`,
@@ -470,6 +483,7 @@ module.exports = {
    dockerHost: dockerHost,
    tfsVersion: tfsVersion,
    profileName: profileName,
+   projectName: projectName,
    dockerPorts: dockerPorts,
    azureSubList: azureSubList,
    customFolder: customFolder,

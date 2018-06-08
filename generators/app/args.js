@@ -40,6 +40,13 @@ function applicationName(obj) {
    });
 }
 
+function projectName(obj) {
+   obj.argument(`projectName`, {
+      required: false,
+      desc: `Name of the project`
+   });
+}
+
 function customFolder(obj) {
    obj.argument(`customFolder`, {
       required: false,
@@ -184,6 +191,7 @@ module.exports = {
    gitAction: gitAction,
    profileCmd: profileCmd,
    profileName: profileName,
+   projectName: projectName,
    tfsVersion: tfsVersion,
    azureSubId: azureSubId,
    installDep: installDep,
