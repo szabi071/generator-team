@@ -102,7 +102,8 @@ function addGit(obj) {
    obj.composeWith(`team:git`, {
       arguments: [obj.applicationName, obj.tfs,
          `all`,
-      obj.pat
+      obj.pat,
+      obj.projectName
       ]
    });
 }

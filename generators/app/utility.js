@@ -570,6 +570,73 @@ function findAzureSub(account, subName, token, gen, callback) {
    });
 }
 
+function tryFindRepository(account, project, repository, token, gen, callback) {
+   'use strict';
+
+   // Will NOT throw an error if the project is not found.  This is used
+   // by code that will create the project if it is not found.
+
+   findRepository(account, project, repository, token, gen, function (err, obj) {
+      if (err && err.code === `NotFound`) {
+         callback(null, undefined);
+      } else {
+         callback(err, obj);
+      }
+   });
+}
+
+function findRepository(account, project, repository, token, gen, callback) {
+   'use strict';   
+
+   var options = addUserAgent({
+      "method": `GET`,
+      "headers": {
+         "cache-control": `no-cache`,
+         "authorization": `Basic ${token}`
+      },
+      "url": `${getFullURL(account)}/${project}/_apis/git/repositories/${repository}`,
+      "qs": {
+         "api-version": PROJECT_API_VERSION
+      }
+   });
+
+   request(options, function (err, res, body) {
+
+      if (err) {
+         callback(err, null);
+         return;
+      }
+
+      // Test for this before you try and parse the body.
+      // When a 203 is returned the body is HTML instead of
+      // JSON and will throw an exception if you try and parse.
+      // I only test this here because the project is required for
+      // all other items. 
+      if (res.statusCode === 203) {
+         // You get this when the site tries to send you to the
+         // login page.
+         gen.log.error(`Unable to authenticate with Team Services. Check account name and personal access token.`);
+         callback({
+            "message": `Unable to authenticate with Team Services. Check account name and personal access token.`
+         });
+         return;
+      }
+
+      if (res.statusCode === 404) {
+         // Returning a undefined repository indicates it was not found
+         callback({
+            "message": `x Repository ${repository} not found`,
+            "code": `NotFound`
+         }, undefined);
+      } else {
+         var obj = JSON.parse(body);
+
+         // Return the repository we just found.
+         callback(err, obj);
+      }
+   });
+}
+
 function tryFindProject(account, project, token, gen, callback) {
    'use strict';
 
@@ -1212,6 +1279,7 @@ module.exports = {
    getUserAgent: getUserAgent,
    needsRegistry: needsRegistry,
    getTFSVersion: getTFSVersion,
+   findRepository: findRepository,
    tryFindRelease: tryFindRelease,
    reconcileValue: reconcileValue,
    searchProfiles: searchProfiles,
@@ -1220,6 +1288,7 @@ module.exports = {
    extractInstance: extractInstance,
    needsDockerHost: needsDockerHost,
    validateAzureSub: validateAzureSub,
+   tryFindRepository: tryFindRepository,
    getInstancePrompt: getInstancePrompt,
    getImageNamespace: getImageNamespace,
    supportsLoadTests: supportsLoadTests,

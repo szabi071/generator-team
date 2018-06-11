@@ -1,4 +1,5 @@
 const path = require(`path`);
+const app = require(`./app`);
 const util = require(`../app/utility`);
 const argUtils = require(`../app/args`);
 const prompts = require(`../app/prompt`);
@@ -15,6 +16,7 @@ module.exports = class extends Generator {
       argUtils.tfs(this);
       argUtils.gitAction(this);
       argUtils.pat(this);
+      argUtils.projectName(this);
    }
 
    // 2. Where you prompt users for options (where you'd call this.prompt())
@@ -28,13 +30,15 @@ module.exports = class extends Generator {
          prompts.tfs(this),
          prompts.pat(this),
          prompts.applicationName(this),
-         prompts.gitAction(this)
+         prompts.gitAction(this),
+         prompts.projectName(this)
       ]).then(function (answers) {
          // Transfer answers to local object for use in the rest of the generator
          this.pat = util.reconcileValue(cmdLnInput.options.pat, answers.pat);
          this.tfs = util.reconcileValue(cmdLnInput.options.tfs, answers.tfs);
          this.action = util.reconcileValue(cmdLnInput.options.action, answers.action);
          this.applicationName = util.reconcileValue(cmdLnInput.options.applicationName, answers.applicationName);
+         this.projectName = util.reconcileValue(cmdLnInput.options.projectName, answers.projectName);
       }.bind(this));
    }
 
@@ -84,5 +88,10 @@ module.exports = class extends Generator {
 
          this.log(`= Now all you have to do is push when ready`);
       }
+   }
+
+   // 3. Saving configurations and configure the project (creating .editorconfig files and other metadata files)
+   configuring() {
+      app.run(this, this.async());
    }
 };
