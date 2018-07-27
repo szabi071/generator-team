@@ -48,11 +48,11 @@ module.exports = class extends Generator {
       if (this.action === `clone` || this.action === `all`) {
          // Clone the repository of the team project so the user only has to add 
          // and commit.
-         this.log(`+ Cloning repository ${util.getFullURL(this.tfs)}/_git/${this.applicationName}`);
+         this.log(`+ Cloning repository ${util.getFullURL(this.tfs, true)}/${this.projectName}/_git/${this.applicationName}`);
 
          // By adding the PAT right after https:// I can clone a repo without 
          // asking user for creds
-         let url = `${util.getFullURL(this.tfs)}/_git/${this.applicationName}`;
+         let url = `${util.getFullURL(this.tfs, true)}/${this.projectName}/_git/${this.applicationName}`;
          url = url.replace(`https://`, `https://${this.pat}@`);
 
          this.spawnCommandSync(`git`, [`clone`, `-q`, url], {

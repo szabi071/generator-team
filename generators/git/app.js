@@ -56,8 +56,8 @@ function findOrCreateRepository(gen, callback) {
                async.whilst(
                   function () { return status !== 'failed' && status !== 'succeeded'; },
                   function (finished) {
-                     util.checkStatus(repository.remoteUrl, token, gen, function (err, stat) {
-                        status = stat.status;
+                     util.checkStatus(repository.url, token, gen, function (err, stat) {
+                        status = stat.id == repository.id ? 'succeeded' : 'failed';
                         finished(err);
                      });
                   },

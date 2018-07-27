@@ -38,7 +38,7 @@ function addAzure(obj) {
       obj.composeWith(`team:azure`, {
          arguments: [obj.applicationName, obj.tfs,
          obj.azureSub, obj.azureSubId, obj.tenantId, obj.servicePrincipalId, obj.servicePrincipalKey,
-         obj.pat
+         obj.pat, obj.projectName
          ]
       });
    }

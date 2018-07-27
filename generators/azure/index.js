@@ -12,6 +12,7 @@ module.exports = class extends Generator {
 
       // Order is important 
       argUtils.applicationName(this);
+      argUtils.projectName(this);
       argUtils.tfs(this);
       argUtils.azureSub(this);
       argUtils.azureSubId(this);
@@ -38,6 +39,7 @@ module.exports = class extends Generator {
          prompts.tfs(this),
          prompts.pat(this),
          prompts.applicationName(this),
+         prompts.projectName(this),
          prompts.azureSubInput(this),
          prompts.azureSubList(this),
          prompts.azureSubId(this),
@@ -53,6 +55,7 @@ module.exports = class extends Generator {
          this.tenantId = util.reconcileValue(cmdLnInput.options.tenantId, answers.tenantId);
          this.azureSubId = util.reconcileValue(cmdLnInput.options.azureSubId, answers.azureSubId);
          this.applicationName = util.reconcileValue(cmdLnInput.options.applicationName, answers.applicationName);
+         this.projectName = util.reconcileValue(cmdLnInput.options.projectName, answers.projectName);
          this.servicePrincipalId = util.reconcileValue(cmdLnInput.options.servicePrincipalId, answers.servicePrincipalId);
          this.servicePrincipalKey = util.reconcileValue(cmdLnInput.options.servicePrincipalKey, answers.servicePrincipalKey);
       }.bind(this));
@@ -72,7 +75,7 @@ module.exports = class extends Generator {
          appName: this.applicationName,
          servicePrincipalId: this.servicePrincipalId,
          servicePrincipalKey: this.servicePrincipalKey,
-         project: this.applicationName
+         project: this.projectName
       };
 
       app.run(args, this, done);
